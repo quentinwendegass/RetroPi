@@ -1,0 +1,57 @@
+body{
+    background-color: grey;
+}
+
+.center{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    height: 100vh;
+
+}
+
+.content{
+    height: 50%;
+    width: 50%;
+    align-items: center;
+    background-color: darkgray;
+    margin: auto;
+    border-radius: 5%;
+}
+
+.button{
+    background-color: whitesmoke;
+    border-radius: 15%;
+    width: 30%;
+    height: 30%;
+    display: block;
+    margin: auto;
+    font-family: "Arial Rounded MT Bold", sans-serif;
+    font-size: large;
+    font-weight: bold;
+    color: #575757;
+}
+
+.on-button{
+    border: 1px solid limegreen;
+}
+
+.on-button:hover{
+     background-color: lightgreen;
+}
+
+.on-button:active{
+    background-color: limegreen;
+}
+
+.off-button{
+    border: 1px solid red;
+}
+
+.off-button:hover{
+     background-color: lightcoral;
+}
+
+.off-button:active{
+    background-color: red;
+}
