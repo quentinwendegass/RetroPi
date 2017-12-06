@@ -1,19 +1,25 @@
-<!DOCTYPE html>
-<html lang="de">
+<!DOCTYPE html><html lang='en' class=''>
 <head>
-    <meta charset="UTF-8">
-    <title>LED Control</title>
-    <link rel="stylesheet" href="style.css"/>
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:600italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="style.css">
 </head>
-<body class="center">
-    <script>
-
-    </script>
-
-    <div class="content center" >
-        <input id="on-button" class="button" type="button" value="On"/>
-        <input id="off-button" class="button" type="button" value="Off"/>
+<body>
+<div>
+    <div class="d-pad">
+      <div id="d-up" class="button d up"></div>
+      <div id="d-right" class="button d right"></div>
+      <div id="d-down" class="button d down"></div>
+      <div id="d-left" class="button d left"></div>
     </div>
+    <div class="control-buttons">
+      <div id="control-a" class="button control a"><span class="label">A</span></div>
+      <div id="control-b" class="button control b"><span class="label">B</span></div>
+    </div>
+    <div class="meta-buttons">
+      <div id="meta-start" class="button meta start"><span class="label">Start</span></div>
+      <div id="meta-select" class="button meta select"><span class="label">Select</span></div>
+    </div>
+</div>
 <script src="websocket.js"></script>
 </body>
 </html>
