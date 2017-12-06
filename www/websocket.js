@@ -1,5 +1,5 @@
 var socket;
-var uri = "ws://" + "192.168.1.9" + ":9001/";
+var uri = "ws://" + window.location.hostname + ":9001/";
 
 function send(message) {
     if(socket) socket.send(message);
@@ -54,9 +54,9 @@ document.getElementById("meta-start").ontouchend = function () {
     send("start");
 };
 document.getElementById("meta-select").ontouchstart = function () {
-    send("startpress");
+    send("selectpress");
 };
 document.getElementById("meta-select").ontouchend = function () {
-    send("start");
+    send("select");
 };
 

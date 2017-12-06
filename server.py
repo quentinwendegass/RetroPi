@@ -3,6 +3,9 @@ from keymap import p1_keys
 from keymap import p2_keys
 import uinput
 
+PORT = 9001
+HOST = "127.0.0.1" #IP-Adresse vom Raspberry
+
 
 p1_client = None
 p2_client = None
@@ -28,31 +31,30 @@ device = uinput.Device([
 
 
 def new_client(client, server):
-    print("Client connected: %d" % client["id"])
+    print("Client connected: %d" % client["address"][0])
     if p1_client is None:
         global p1_client
         p1_client = client
-        print("Client %d assigned to player 1!" % client["id"])
+        print("Client (%d) assigned to player 1!" % client["address"][0])
     elif p2_client is None:
         global p2_client
         p2_client = client
-        print("Client %d assigned to player 2!" % client["id"])
+        print("Client (%d) assigned to player 2!" % client["address"][0])
 
 
 def client_left(client, server):
     if p1_client is client:
         global p1_client
         p1_client = None
-        print("Client %d removed from player 1!" % client["id"])
+        print("Client (%d) removed from player 1!" % client["address"][0])
     elif p2_client is client:
         global p2_client
         p2_client = None
-        print("Client %d removed from player 2!" % client["id"])
-    print("Client disconnected: %d" % client["id"])
+        print("Client (%d) removed from player 2!" % client["address"][0])
+    print("Client disconnected: %d" % client["address"][0])
 
 
 def message_received(client, server, message):
-    print("Client %d send: %s" % (client["id"], message))
     player_keys = None
     if client is p1_client:
         player_keys = p1_keys
@@ -60,7 +62,7 @@ def message_received(client, server, message):
         player_keys = p2_keys
 
     if player_keys is None:
-        print("Client %d is no valid player!" % (client["id"]))
+        print("Client (%d) is no valid player!" % (client["address"][0]))
         return
 
     command = str(message)
@@ -70,14 +72,13 @@ def message_received(client, server, message):
             global device
             if command.find("press") != -1:
                 device.emit(key, 1)
-                print("Client %d pressed %s on Keyboard!" % (client["id"], player_keys[button]))
+                print("Client (%d) pressed %s on Keyboard!" % (client["address"][0], player_keys[button]))
             else:
                 device.emit(key, 0)
-                print("Client %d released %s on Keyboard!" % (client["id"], player_keys[button]))
+                print("Client (%d) released %s on Keyboard!" % (client["address"][0], player_keys[button]))
 
 
-PORT = 9001
-server = WebsocketServer(PORT, host="127.0.0.1") #IP-Adresse vom Raspberry bei host einfügen
+server = WebsocketServer(PORT, host=HOST)
 server.set_fn_new_client(new_client)
 server.set_fn_client_left(client_left)
 server.set_fn_message_received(message_received)
