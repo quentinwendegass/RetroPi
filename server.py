@@ -16,6 +16,14 @@ device = uinput.Device([
         uinput.KEY_D,
         uinput.KEY_W,
         uinput.KEY_S,
+        uinput.KEY_O,
+        uinput.KEY_P,
+        uinput.KEY_K,
+        uinput.KEY_L,
+        uinput.KEY_F,
+        uinput.KEY_H,
+        uinput.KEY_T,
+        uinput.KEY_G
 ])
 
 
@@ -46,9 +54,9 @@ def client_left(client, server):
 def message_received(client, server, message):
     print("Client %d send: %s" % (client["id"], message))
     player_keys = None
-    if client in p1_client:
+    if client is p1_client:
         player_keys = p1_keys
-    elif client in p2_client:
+    elif client is p2_client:
         player_keys = p2_keys
 
     if player_keys is None:
@@ -69,7 +77,7 @@ def message_received(client, server, message):
 
 
 PORT = 9001
-server = WebsocketServer(PORT, host="127.0.0.1")
+server = WebsocketServer(PORT, host="127.0.0.1") #IP-Adresse vom Raspberry bei host einfügen
 server.set_fn_new_client(new_client)
 server.set_fn_client_left(client_left)
 server.set_fn_message_received(message_received)
