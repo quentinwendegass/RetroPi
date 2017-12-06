@@ -32,26 +32,26 @@ body{
     color: #575757;
 }
 
-.on-button{
+#on-button{
     border: 1px solid limegreen;
 }
 
-.on-button:hover{
+#on-button:hover{
      background-color: lightgreen;
 }
 
-.on-button:active{
+#on-button:active{
     background-color: limegreen;
 }
 
-.off-button{
+#off-button{
     border: 1px solid red;
 }
 
-.off-button:hover{
+#off-button:hover{
      background-color: lightcoral;
 }
 
-.off-button:active{
+#off-button:active{
     background-color: red;
 }

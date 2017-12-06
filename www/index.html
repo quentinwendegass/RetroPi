@@ -5,23 +5,15 @@
     <title>LED Control</title>
     <link rel="stylesheet" href="style.css"/>
 </head>
-<body class="center" onload="connect()">
+<body class="center">
     <script>
-        var websocket;
-        var uri = "ws://" + "127.0.0.1" + ":9001/";
-        function connect() {
-            websocket = new WebSocket(uri);
-        }
-        function send(message) {
-            if(websocket) websocket.send(message);
-        }
+
     </script>
 
     <div class="content center" >
-        <input class="button on-button" type="button" value="On" onclick="send(this.value)"/>
-        <input class="button off-button" type="button" value="Off" onclick="send(this.value)"/>
+        <input id="on-button" class="button" type="button" value="On"/>
+        <input id="off-button" class="button" type="button" value="Off"/>
     </div>
-
-
+<script src="websocket.js"></script>
 </body>
 </html>
