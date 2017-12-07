@@ -1,0 +1,8 @@
+{
+  "name": "Controller",
+  "short_name": "Controller",
+  "description": "Controller App for RetroPi",
+  "lang": "de-AT",
+  "start_url": "/index.html",
+  "display": "fullscreen"
+}

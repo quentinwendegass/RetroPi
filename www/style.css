@@ -1,7 +1,27 @@
+ #portrait { display: none; }
+
+    @media only screen and (orientation:portrait){
+
+        #landscape { display:none; }
+
+        #portrait { display:block; }
+
+    }
+
+    @media only screen and (orientation:landscape){
+
+        #portrait { display:none; }
+
+    }
+
 body {
   background: #bcbdc2;
   font-family: "Source Sans Pro", Verdana, Arial, sans-serif;
   font-size: 16px;
+}
+
+.warning{
+  color: red;
 }
 
 .button {
@@ -14,6 +34,7 @@ body {
 .button:active {
   box-shadow: 0 0 5px 1px #333 inset;
 }
+
 .button .label {
   font-size: 9vh;
   position: relative;
@@ -24,7 +45,7 @@ body {
   top: 15vh;
   left: 5vh;
   width: 67.5vh;
-    float: left;
+  float: left;
   height: 67.5vh;
   position: relative;
 }
@@ -88,7 +109,6 @@ body {
   top: 5vh;
   background: #afb2b6;
   border-radius: 45vh;
-
 }
 
 .control {

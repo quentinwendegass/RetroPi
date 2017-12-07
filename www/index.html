@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang='en' class=''>
 <head>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="style.css">
+    <link rel="apple-touch-icon" href="nes_controller_icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Controller">
+    <meta name="apple-mobile-web-app-title" content="Controller">
+    <meta name="msapplication-starturl" content="/index.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-<div class="wrapper">
+<div id="portrait">
+    <p class="warning">Turn into landscape orientation to see the controller!</p>
+</div>
+<div id="landscape">
     <div class="d-pad">
       <div id="d-up" class="button d up"></div>
       <div id="d-right" class="button d right"></div>
