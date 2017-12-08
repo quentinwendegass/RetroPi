@@ -31,27 +31,27 @@ device = uinput.Device([
 
 
 def new_client(client, server):
-    print("Client connected: %d" % client["address"][0])
+    print("Client connected: %d" % client["id"])
     if p1_client is None:
         global p1_client
         p1_client = client
-        print("Client (%d) assigned to player 1!" % client["address"][0])
+        print("Client (%d) assigned to player 1!" % client["id"])
     elif p2_client is None:
         global p2_client
         p2_client = client
-        print("Client (%d) assigned to player 2!" % client["address"][0])
+        print("Client (%d) assigned to player 2!" % client["id"])
 
 
 def client_left(client, server):
     if p1_client is client:
         global p1_client
         p1_client = None
-        print("Client (%d) removed from player 1!" % client["address"][0])
+        print("Client (%d) removed from player 1!" % client["id"])
     elif p2_client is client:
         global p2_client
         p2_client = None
-        print("Client (%d) removed from player 2!" % client["address"][0])
-    print("Client disconnected: %d" % client["address"][0])
+        print("Client (%d) removed from player 2!" % client["id"])
+    print("Client disconnected: %d" % client["id"])
 
 
 def message_received(client, server, message):
@@ -62,7 +62,7 @@ def message_received(client, server, message):
         player_keys = p2_keys
 
     if player_keys is None:
-        print("Client (%d) is no valid player!" % (client["address"][0]))
+        print("Client (%d) is no valid player!" % client["id"])
         return
 
     command = str(message)
@@ -72,10 +72,10 @@ def message_received(client, server, message):
             global device
             if command.find("press") != -1:
                 device.emit(key, 1)
-                print("Client (%d) pressed %s on Keyboard!" % (client["address"][0], player_keys[button]))
+                print("Client (%d) pressed %s on Keyboard!" % (client["id"], player_keys[button]))
             else:
                 device.emit(key, 0)
-                print("Client (%d) released %s on Keyboard!" % (client["address"][0], player_keys[button]))
+                print("Client (%d) released %s on Keyboard!" % (client["id"], player_keys[button]))
 
 
 server = WebsocketServer(PORT, host=HOST)

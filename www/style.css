@@ -1,18 +1,13 @@
- #portrait { display: none; }
+#portrait { display: none; }
 
-    @media only screen and (orientation:portrait){
+ @media only screen and (orientation:portrait){
+   #landscape { display:none; }
+   #portrait { display:block; }
+ }
 
-        #landscape { display:none; }
-
-        #portrait { display:block; }
-
-    }
-
-    @media only screen and (orientation:landscape){
-
-        #portrait { display:none; }
-
-    }
+ @media only screen and (orientation:landscape){
+   #portrait { display:none; }
+ }
 
 body {
   background: #bcbdc2;
@@ -20,8 +15,46 @@ body {
   font-size: 16px;
 }
 
-.warning{
+.connection-status{
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
+}
+
+.player-status{
+  text-align: center;
+}
+
+.connected{
+  color: limegreen;
+}
+
+.not-connected{
   color: red;
+}
+
+.warning{
+  color: orangered;
+  text-align: center;
+}
+
+.status{
+  background-color: darkseagreen;
+  border-radius: 2vh;
+}
+
+.connection-button{
+  width: 75vw;
+  height: 10vh;
+  background-color: #555555;
+  line-height: 10vh;
+  margin: 5vh auto;
+  text-align: center;
+  border-radius: 4vh;
+}
+
+.connection-button:active{
+  background-color: #8d266a;
 }
 
 .button {
