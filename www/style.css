@@ -1,28 +1,34 @@
 #portrait { display: none; }
 
- @media only screen and (orientation:portrait){
-   #landscape { display:none; }
-   #portrait { display:block; }
- }
+@media only screen and (orientation:portrait){
+  #landscape { display:none; }
+  #portrait { display:block; }
+}
 
- @media only screen and (orientation:landscape){
-   #portrait { display:none; }
- }
+@media only screen and (orientation:landscape){
+  #portrait { display:none; }
+}
 
 body {
   background: #bcbdc2;
-  font-family: "Source Sans Pro", Verdana, Arial, sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 16px;
 }
 
 .connection-status{
   font-size: large;
   font-weight: bold;
+  font-family: Arial sans-serif;
   text-align: center;
+  padding-top: 3vh;
 }
 
-.player-status{
+#player-status{
+  font-family: Arial sans-serif;
+  font-style: italic;
   text-align: center;
+  padding-top: 2vh;
+  padding-bottom: 4vh;
 }
 
 .connected{
@@ -51,10 +57,15 @@ body {
   margin: 5vh auto;
   text-align: center;
   border-radius: 4vh;
+  box-shadow: 0 0 3px 1px #555;
+  font-family: Arial sans-serif;
+  font-size: xx-large;
+  font-weight: bolder;
 }
 
 .connection-button:active{
   background-color: #8d266a;
+  box-shadow: 0 0 5px 1px #333 inset;
 }
 
 .button {
@@ -137,7 +148,7 @@ body {
 
 .control-buttons {
   position: relative;
-    float: left;
+  float: left;
   right: -15vh;
   top: 5vh;
   background: #afb2b6;

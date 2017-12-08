@@ -9,19 +9,19 @@
     <meta name="application-name" content="Controller">
     <meta name="apple-mobile-web-app-title" content="Controller">
     <meta name="msapplication-starturl" content="/index.html">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 <body>
 <div id="portrait">
     <p class="warning">Turn into landscape orientation to see the controller!</p>
     <hr>
     <div class="status">
-        <div class="connection-status">Status: <span class="not-connected">Not connected</span></div>
-        <div class="player-status">Connected to no player</div>
+        <div class="connection-status">Status: <span id="connection" class="not-connected">Not connected</span></div>
+        <div id="player-status">Assigned to no Player!</div>
     </div>
     <hr>
-    <div class="connection-button">Connect</div>
-    <div class="connection-button">Disconnect</div>
+    <div id="connect-button" class="connection-button">Connect</div>
+    <div id="disconnect-button" class="connection-button">Disconnect</div>
 </div>
 <div id="landscape">
     <div class="d-pad">

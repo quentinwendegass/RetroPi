@@ -4,11 +4,14 @@ from keymap import p2_keys
 import uinput
 
 PORT = 9001
-HOST = "127.0.0.1" #IP-Adresse vom Raspberry
+HOST = "192.168.1.5" #IP-Adresse vom Raspberry
 
 
 p1_client = None
 p2_client = None
+
+waiting_clients = []
+
 
 device = uinput.Device([
         uinput.KEY_LEFT,
@@ -35,11 +38,17 @@ def new_client(client, server):
     if p1_client is None:
         global p1_client
         p1_client = client
+        server.send_message(client=client, msg="player1")
         print("Client (%d) assigned to player 1!" % client["id"])
     elif p2_client is None:
         global p2_client
         p2_client = client
+        server.send_message(client=client, msg="player2")
         print("Client (%d) assigned to player 2!" % client["id"])
+    else:
+        waiting_clients.append(client)
+        server.send_message(client=client, msg="noplayer")
+        print("Client (%d) assigned to no player!" % client["id"])
 
 
 def client_left(client, server):
@@ -47,11 +56,33 @@ def client_left(client, server):
         global p1_client
         p1_client = None
         print("Client (%d) removed from player 1!" % client["id"])
+        assign_client_to_player()
     elif p2_client is client:
         global p2_client
         p2_client = None
         print("Client (%d) removed from player 2!" % client["id"])
+        assign_client_to_player()
+    else:
+        if client in waiting_clients:
+            waiting_clients.remove(client)
+
     print("Client disconnected: %d" % client["id"])
+
+
+def assign_client_to_player():
+    if len(waiting_clients) > 0:
+        global p1_client
+        global p2_client
+        if p1_client is None:
+            p1_client = waiting_clients[0]
+            waiting_clients.pop(0)
+            server.send_message(client=p1_client, msg="player1")
+            print("Client (%d) assigned to player 1!" % p1_client["id"])
+        elif p2_client is None:
+            p2_client = waiting_clients[0]
+            waiting_clients.pop(0)
+            server.send_message(client=p2_client, msg="player2")
+            print("Client (%d) assigned to player 2!" % p2_client["id"])
 
 
 def message_received(client, server, message):

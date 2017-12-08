@@ -1,14 +1,55 @@
 var socket;
 var uri = "ws://" + window.location.hostname + ":9001/";
+var connected = false;
+
 
 function send(message) {
     if(socket) socket.send(message);
-}
+};
 
-document.onreadystatechange = function () {
-  if (document.readyState == "complete") {
-    socket = new WebSocket(uri);
-  }
+function connect() {
+    if(!connected) socket = new WebSocket(uri);
+
+    socket.onopen = function () {
+        document.getElementById("connection").className = "connected";
+        document.getElementById("connection").innerHTML = "Connected";
+        connected = true;
+    };
+    
+    socket.onmessage = function (event) {
+        var status = document.getElementById("player-status").innerHTML;
+
+        switch (event.data){
+            case "player1":
+                status = "Assigned to Player 1!";
+                break;
+            case "player2":
+                status = "Assigned to Player 2!";
+                break;
+            case "noplayer":
+                status = "Please wait until a Player is available...";
+                break
+        }
+        document.getElementById("player-status").innerHTML = status;
+    }
+};
+
+function disconnect() {
+  socket.onclose = function () {
+     document.getElementById("connection").className = "not-connected";
+     document.getElementById("connection").innerHTML = "Not connected";
+     document.getElementById("player-status").innerHTML = "Assigned to no Player!";
+     connected = false;
+  };
+
+  if(socket) socket.close();
+};
+
+document.getElementById("disconnect-button").ontouchstart = function () {
+    disconnect();
+};
+document.getElementById("connect-button").ontouchstart = function () {
+    connect();
 };
 
 document.getElementById("d-up").ontouchstart = function () {
