@@ -29,6 +29,9 @@ function connect() {
             case "noplayer":
                 status = "Please wait until a Player is available...";
                 break
+            case "shutdown":
+                disconnect();
+                break;
         }
         document.getElementById("player-status").innerHTML = status;
     }

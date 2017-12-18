@@ -1,7 +1,36 @@
-from websocket_server import WebsocketServer
+from websocket_server import WebsocketServer, WebSocketHandler
 from keymap import p1_keys
 from keymap import p2_keys
 import uinput
+import cmd
+import _thread
+
+
+class Helper(cmd.Cmd):
+
+    def do_show_waiting_clients(self):
+        for c in waiting_clients:
+            print(c)
+
+    def do_show_player_clients(self):
+        print(p1_client)
+        print(p2_client)
+
+    def do_show_clients(self):
+        self.do_show_waiting_clients()
+        self.do_show_player_clients()
+
+    def do_kick(self, client_id):
+        for c in server.clients:
+            if c["id"] is client_id:
+                server.send_message(c, "shutdown")
+
+    def do_kick_player(self, player):
+        if player is 1:
+            server.send_message(p1_client, "shutdown")
+        elif player is 2:
+            server.send_message(p2_client, "shutdown")
+
 
 PORT = 9001
 HOST = "192.168.1.5" #IP-Adresse vom Raspberry
@@ -109,8 +138,15 @@ def message_received(client, server, message):
                 print("Client (%d) released %s on Keyboard!" % (client["id"], player_keys[button]))
 
 
+def start_helper():
+    Helper().cmdloop()
+
+_thread.start_new_thread(start_helper, ())
+
 server = WebsocketServer(PORT, host=HOST)
 server.set_fn_new_client(new_client)
 server.set_fn_client_left(client_left)
 server.set_fn_message_received(message_received)
 server.run_forever()
+
+
