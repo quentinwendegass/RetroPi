@@ -17,11 +17,29 @@ WebSocketsClient webSocket;
 #define LEFT 10
 #define RIGHT 9
 
-#define AP_SSID "3LTE-72858B"
-#define AP_PASSWORD "B78BFA4EBD9"
-#define SERVER_IP "192.168.1.12"
+#define LED 11
+
+#define AP_SSID ""
+#define AP_PASSWORD ""
+#define SERVER_IP ""
+
+bool isConnected = false;
+bool isPlayerAssigned = false;
+
+bool ledState = false;
+
+int blinkDuration = 0;
+
+long timeLastFrame;
+long timeThisFrame;
+int timer;
+
   
 void setup() {
+
+  timer = 0;
+  timeLastFrame = millis();
+  
   Serial.begin(115200);
  
   for(uint8_t t = 4; t > 0; t--) {
@@ -29,6 +47,8 @@ void setup() {
     delay(1000);
   }
   Serial.printf("\n");
+
+  pinMode(LED, OUTPUT);
 
   pinMode(SELECT, INPUT);
   pinMode(START, INPUT);
@@ -79,29 +99,60 @@ void setup() {
 
 void loop() {
     webSocket.loop();
+    
+    if(isConnected){
+      if(isPlayerAssigned){
+        blinkDuration = 0;
+      }else{
+         blinkDuration = 1000;
+      }
+    }else{
+       blinkDuration = 100;
+    }
+
+    timeThisFrame = millis();
+    int delta = timeThisFrame - timeLastFrame;
+    timeLastFrame = timeThisFrame;
+
+    timer+=delta;
+    if(blinkDuration == 0){
+      if(!ledState){
+        ledState = true;
+        digitalWrite(LED, HIGH);
+      }
+    }else if(timer >= blinkDuration){
+      timer = 0;
+      if(ledState){
+        digitalWrite(LED, LOW);
+      }else{
+        digitalWrite(LED, HIGH);
+      }
+      ledState = !ledState;
+    }
+    
 }
 
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
   switch(type) {
     case WStype_DISCONNECTED:
       Serial.print("Disconnected!\n");
-
-      //TODO: Power-LED blink
+      isConnected = false;
       break;
     case WStype_CONNECTED: {
       Serial.print("Connected\n");
-
-      //TODO: Power-LED on 
+      isConnected = true;
     }
       break;
     case WStype_TEXT:
       Serial.printf("Message: %s\n", payload);
       if(payload == (uint8_t*)("player1")){
-
+        isPlayerAssigned = true;
       }else if(payload == (uint8_t*)("player2")){
-        
+        isPlayerAssigned = true;
       }else if(payload == (uint8_t*)("noplayer")){
-        
+        isPlayerAssigned = false;
+      }else if(payload == (uint8_t*)("shutdown")){
+        websocket.disconnect();
       }
       break;
   }
