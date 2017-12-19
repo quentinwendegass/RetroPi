@@ -61,11 +61,15 @@ class Helper(cmd.Cmd):
         if int(player) is 1:
             global p1_client
             waiting_clients.append(p1_client)
+            server.send_message(client=p1_client, msg="noplayer")
+            print("Client (%d) assigned to no player!" % p1_client["id"])
             p1_client = None
             assign_client_to_player()
         elif int(player) is 2:
             global p2_client
             waiting_clients.append(p2_client)
+            server.send_message(client=p2_client, msg="noplayer")
+            print("Client (%d) assigned to no player!" % p2_client["id"])
             p2_client = None
             assign_client_to_player()
 
