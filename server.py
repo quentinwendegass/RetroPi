@@ -3,37 +3,11 @@ from keymap import p1_keys
 from keymap import p2_keys
 import uinput
 import cmd
-import _thread
-
-
-class Helper(cmd.Cmd):
-
-    def do_show_waiting_clients(self):
-        for c in waiting_clients:
-            print(c)
-
-    def do_show_player_clients(self):
-        print(p1_client)
-        print(p2_client)
-
-    def do_show_clients(self):
-        self.do_show_waiting_clients()
-        self.do_show_player_clients()
-
-    def do_kick(self, client_id):
-        for c in server.clients:
-            if c["id"] is client_id:
-                server.send_message(c, "shutdown")
-
-    def do_kick_player(self, player):
-        if player is 1:
-            server.send_message(p1_client, "shutdown")
-        elif player is 2:
-            server.send_message(p2_client, "shutdown")
+import thread
 
 
 PORT = 9001
-HOST = "192.168.1.5" #IP-Adresse vom Raspberry
+HOST = "192.168.1.100" #IP-Adresse vom Raspberry
 
 
 p1_client = None
@@ -60,6 +34,43 @@ device = uinput.Device([
         uinput.KEY_T,
         uinput.KEY_G
 ])
+
+
+class Helper(cmd.Cmd):
+
+    def do_show_waiting_clients(self, line):
+        for c in waiting_clients:
+            print("[ID=" + str(c["id"]) + ", ADDRESS=" + str(c["address"]) + "]")
+
+    def do_show_player_clients(self, line):
+        if p1_client is not None:
+            print("Player 1: [ID=" + str(p1_client["id"]) + ", ADDRESS=" + str(p1_client["address"]) + "]")
+        if p2_client is not None:
+            print("Player 2: [ID=" + str(p2_client["id"]) + ", ADDRESS=" + str(p2_client["address"]) + "]")
+
+    def do_show_clients(self, line):
+        self.do_show_waiting_clients(line)
+        self.do_show_player_clients(line)
+
+    def do_kick(self, client_id):
+        for c in server.clients:
+            if c["id"] is int(client_id):
+                server.send_message(c, "shutdown")
+
+    def do_kick_player(self, player):
+        if int(player) is 1:
+            global p1_client
+            waiting_clients.append(p1_client)
+            p1_client = None
+            assign_client_to_player()
+        elif int(player) is 2:
+            global p2_client
+            waiting_clients.append(p2_client)
+            p2_client = None
+            assign_client_to_player()
+
+    def do_exit(self, line):
+        return True
 
 
 def new_client(client, server):
@@ -141,7 +152,7 @@ def message_received(client, server, message):
 def start_helper():
     Helper().cmdloop()
 
-_thread.start_new_thread(start_helper, ())
+thread.start_new_thread(start_helper, ())
 
 server = WebsocketServer(PORT, host=HOST)
 server.set_fn_new_client(new_client)
