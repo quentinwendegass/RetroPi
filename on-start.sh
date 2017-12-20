@@ -2,7 +2,7 @@
 
 if pgrep -f "retropi_server.py" > /dev/null
     then
-        pkill -f "retropi_server.py"
+        pkill -f -9 "retropi_server.py"
 fi
 
 while ! pgrep -f "rom" > /dev/null
