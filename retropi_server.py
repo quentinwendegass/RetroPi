@@ -1,6 +1,5 @@
 from websocket_server import WebsocketServer, WebSocketHandler
-from keymap import p1_keys
-from keymap import p2_keys
+from keymap import p1_keys, p2_keys
 import uinput
 import cmd
 import thread

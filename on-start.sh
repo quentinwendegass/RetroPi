@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if pgrep -f "retropi_server.py" > /dev/null
+    then
+        pkill -f "retropi_server.py"
+fi
+
+while ! pgrep -f "rom" > /dev/null
+do
+    :
+done
+
+sleep 5
+
+python ${HOME}/server/RetroPi/server.py
+
+
+
