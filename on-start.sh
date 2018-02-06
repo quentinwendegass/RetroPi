@@ -13,7 +13,7 @@ done
 pkill -f -9 "retropi_server.py"
 sleep 5
 
-python /home/pi/server/RetroPi/server.py
+python /home/pi/RetroPi/retropi_server.py
 
 
 
