@@ -12,7 +12,7 @@ done
 
 sleep 5
 
-python ${HOME}/server/RetroPi/server.py
+python /home/pi/server/RetroPi/server.py
 
 
 
